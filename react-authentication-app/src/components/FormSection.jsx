@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 
 function FormSection() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(true);
 
   const onSubmit = (data) => {
@@ -65,11 +64,11 @@ function FormSection() {
           {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
 
-        {/* Password Input */}
+
         <div className="input-group password-input">
           <label>Password</label>
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={'password'}
             placeholder="Password"
             {...register('password', {
               required: 'Password is required',
@@ -80,48 +79,7 @@ function FormSection() {
             })}
           />
 
-          <span
-            className="password-toggle"
-            onClick={() => setShowPassword(!showPassword)}
-            title={showPassword ? 'Hide Password' : 'Show Password'}
-          >
-            {showPassword ? (
-              // Eye-off icon (hide)
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                width="20"
-                height="20"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 3l18 18M9.88 9.88A3 3 0 0112 9c1.657 0 3 1.343 3 3 0 .477-.112.927-.31 1.326M6.1 6.1A10.478 10.478 0 003 12s3 7 9 7c1.98 0 3.79-.586 5.27-1.59M14.12 14.12A3 3 0 0112 15c-1.657 0-3-1.343-3-3 0-.477.112-.927.31-1.326"
-                />
-              </svg>
-            ) : (
-              // Eye icon (show)
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                width="20"
-                height="20"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-            )}
-          </span>
+         
 
           {errors.password && <p className="error">{errors.password.message}</p>}
         </div>

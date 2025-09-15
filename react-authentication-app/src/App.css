@@ -197,3 +197,65 @@ button {
   position: absolute;
   transform: rotate(-40deg);
 }
+
+@media (max-width: 768px) {
+
+  .auth-form {
+    flex-direction: column;
+    height: auto;         
+    min-height: 100vh;
+  }
+
+
+  .right-section {
+    display: none !important;
+  }
+
+
+  .form-section {
+    padding: 1.5rem;       
+  }
+  .form-section.left {
+    border-right: none;
+  }
+
+
+  .input-group-1 {
+    flex-direction: column;
+    gap: 0.75rem;           
+  }
+  .input-group-1 .name-inputs {
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+    padding: 0.5rem 0;
+  }
+  .title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+
+  .password-toggle {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .terms {
+    margin-left: 0;
+    max-width: 100%;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+
+
+  input, button {
+    font-size: 1rem;
+  }
+
+  .error {
+    font-size: 0.75rem;
+  }
+}
