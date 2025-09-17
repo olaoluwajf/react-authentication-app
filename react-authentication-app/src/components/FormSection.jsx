@@ -21,14 +21,14 @@ function FormSection() {
 
     try {
       if (isSignUp) {
-        // create a new user
+ 
         await doCreateUserWithEmailAndPassword(data.email, data.password);
-        // optionally store first/last name in Firestore later
+
       } else {
-        // sign in existing user
+      
         await doSignInWithEmailAndPassword(data.email, data.password);
       }
-      // success (redirect or show message)
+
     } catch (err) {
       setFirebaseError(err.message);
     } finally {
