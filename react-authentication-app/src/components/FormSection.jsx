@@ -1,17 +1,39 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { doSignInWithEmailAndPassword, doCreateUserWithEmailAndPassword } from '../firebase/auth';
+import { useAuth } from '../context/authContext';
 
 function FormSection() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [isSignUp, setIsSignUp] = useState(true);
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const [loading, setLoading] = useState(false);
+  const [firebaseError, setFirebaseError] = useState('');
 
   const toggleForm = (e) => {
     e.preventDefault();
     setIsSignUp(!isSignUp);
+    setFirebaseError('');
+  };
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setFirebaseError('');
+
+    try {
+      if (isSignUp) {
+        // create a new user
+        await doCreateUserWithEmailAndPassword(data.email, data.password);
+        // optionally store first/last name in Firestore later
+      } else {
+        // sign in existing user
+        await doSignInWithEmailAndPassword(data.email, data.password);
+      }
+      // success (redirect or show message)
+    } catch (err) {
+      setFirebaseError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -23,7 +45,9 @@ function FormSection() {
         </div>
         Push
       </div>
+
       <div className="title">{isSignUp ? 'Sign Up for Push' : 'Login to Push'}</div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         {isSignUp && (
           <div className="input-group-1">
@@ -64,11 +88,10 @@ function FormSection() {
           {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
 
-
         <div className="input-group password-input">
           <label>Password</label>
           <input
-            type={'password'}
+            type="password"
             placeholder="Password"
             {...register('password', {
               required: 'Password is required',
@@ -78,17 +101,14 @@ function FormSection() {
               },
             })}
           />
-
-         
-
           {errors.password && <p className="error">{errors.password.message}</p>}
         </div>
 
-        {isSignUp ? (
-          <button type="submit">Sign Up</button>
-        ) : (
-          <button type="submit">Login</button>
-        )}
+        {firebaseError && <p className="error">{firebaseError}</p>}
+
+        <button type="submit" disabled={loading}>
+          {loading ? 'Processing...' : isSignUp ? 'Sign Up' : 'Login'}
+        </button>
       </form>
 
       <div className="terms">
